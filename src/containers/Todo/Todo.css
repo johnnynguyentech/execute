@@ -1,0 +1,76 @@
+/* MODAL */
+
+.modal-header {
+    background: #007BFF;
+    font-family: 'Poppins', sans-serif;
+    color: white;
+}
+
+.modal-body{
+    font-family: 'Quicksand', sans-serif;
+}
+
+#date{
+    margin-bottom: 15px;
+    display: block;
+}
+
+#addItemBtn{
+    font-family: 'Poppins', sans-serif;
+}
+
+.close{
+    color: white;
+}
+
+#cardLayout {
+    margin-left: 55px;
+    margin-right: 55px;
+}
+
+
+/* TO-DO PAGE */
+
+#todoHeading{
+    font-family: 'Poppins', sans-serif;
+    font-size: 250%;
+    color: white;
+    text-align: center;
+    margin-top: 15px;
+}
+
+.addHeading{
+    margin-top: 40px;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 60px;
+}
+
+#addTodoBtn{
+    color: #007BFF;
+    margin-left: 15px;
+    font-family: 'Poppins', sans-serif;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+
+/* MOBILE */
+@media only screen
+  and (max-device-width: 600px) {
+    #todoHeading{
+        font-size: 200%;
+        margin-top: 30px;
+    }
+    .addHeading{
+        display: block;
+    }
+    #addTodoBtn{
+        margin: 0 auto;
+        display: block;
+    }
+    #cardLayout {
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+    
+}
