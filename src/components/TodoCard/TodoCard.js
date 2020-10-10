@@ -8,7 +8,7 @@ const TodoCard = (props) => {
     return (
         <Aux>
             <div className="TodoCard">
-                <div className="card">
+                <div className="card" id={props.id}>
                     <div className="card-header">
                         <h5>{props.title}</h5>
                         <button type="button" id="removeCard" onClick={props.onClick}><i className="fas fa-trash"></i></button>

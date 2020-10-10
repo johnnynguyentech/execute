@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from '../../axios-instance';
 
 import './Todo.css';
 import Aux from '../../hoc/Aux/Aux';
@@ -12,7 +13,8 @@ class Todo extends Component {
     state = {
         title: "",
         date: "When is it..",
-        notes: ""
+        notes: "",
+        cards: []
     }
 
     onChangeHandler = (event) => {
@@ -29,21 +31,56 @@ class Todo extends Component {
           });
     }
 
-    componentDidMount = () => {
-        //Display array of cards pulled from Firebase
-    }
-
     submitHandler = () => {
         // Add a card to the array of cards and to Firebase
-        console.log("submitted!!");
+        const todoCard = {
+            title: this.state.title,
+            date: this.state.date,
+            notes: this.state.notes
+        }
+        axios.post('/todoItems.json', todoCard);
+        // Clear the add form when done
+        this.setState({
+            title: "",
+            date: "When is it..",
+            notes: ""
+        })
     }
 
-    removedCardHandler = () => {
+    removeCardHandler = (cardID) => {
         // Remove specific card from array of cards and to Firebase
-        console.log("removed!!");
+        axios.delete('/todoItems/' + cardID + '.json' );
     }
 
     render () {
+        // Get todo cards from Firebase
+        axios.get('/todoItems.json').then(response => {
+            const results = [];
+            for (let key in response.data) {
+                results.unshift({
+                    ...response.data[key],
+                    id: key
+                })
+            }
+            this.setState({cards: results})
+        })
+        // Display Firebase data in cards
+        let cardList = (
+            <Aux>
+                {this.state.cards.map((cards, index) => {
+                    return (
+                        <div className="col-lg-4 col-xs-12" key= {cards + index}>
+                            <TodoCard
+                                title={cards.title} 
+                                date={cards.date} 
+                                notes={cards.notes}
+                                id={cards.id} 
+                                onClick={() => this.removeCardHandler(cards.id)}/>
+                        </div>
+                    );
+                })}
+            </Aux>
+        );
         return (
             <Aux>
                 <div className="Todo"> 
@@ -93,8 +130,8 @@ class Todo extends Component {
                                                 placeholder="What's it about..">
                                             </textarea>
                                         </div>
-                                        <button type="submit" className="btn btn-primary" id="addItemBtn" onClick={this.submitHandler}>ADD</button> 
                                     </form> 
+                                    <button className="btn btn-primary" id="addItemBtn" data-dismiss="modal" onClick={this.submitHandler}>ADD</button> 
                                 </div>
                             </div>
                         </div>
@@ -106,27 +143,11 @@ class Todo extends Component {
                     <div className="addHeading">
                         <h1 id="todoHeading">Ready to execute?</h1>
                         <button type="submit" className="btn btn-light" id="addTodoBtn" data-toggle="modal" data-target="#exampleModal">ADD A TO-DO</button> 
-                    </div> 
-
+                    </div>
 
                     {/* TO DO CARDS */}
                     <div className="row" id="cardLayout">
-                        <div className="col-lg-4 col-xs-12">
-                            <TodoCard 
-                                title="Walk the Dog" 
-                                date="10/14/1998" 
-                                notes="6 miles around the nieghborhood" 
-                                onClick={this.removedCardHandler}/>
-                        </div>
-                        <div className="col-lg-4 col-xs-12">
-                            <TodoCard />
-                        </div>
-                        <div className="col-lg-4 col-xs-12">
-                            <TodoCard />
-                        </div>
-                        <div className="col-lg-4 col-xs-12">
-                            <TodoCard />
-                        </div>
+                        {cardList}
                     </div>
                 </div>
             </Aux>
