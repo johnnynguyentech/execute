@@ -32,19 +32,24 @@ class Todo extends Component {
     }
 
     submitHandler = () => {
-        // Add a card to the array of cards and to Firebase
-        const todoCard = {
-            title: this.state.title,
-            date: this.state.date,
-            notes: this.state.notes
+        // Make sure all form fields are inputted
+        if(this.state.title !== "" && this.state.date !== "When is it.." && this.state.notes !== "") {
+            // Add a card to the array of cards and to Firebase
+            const todoCard = {
+                title: this.state.title,
+                date: this.state.date,
+                notes: this.state.notes
+            }
+            axios.post('/todoItems.json', todoCard);
+            // Clear the add form when done
+            this.setState({
+                title: "",
+                date: "When is it..",
+                notes: ""
+            })
+        } else {
+            alert("Please fill out all form fields!");
         }
-        axios.post('/todoItems.json', todoCard);
-        // Clear the add form when done
-        this.setState({
-            title: "",
-            date: "When is it..",
-            notes: ""
-        })
     }
 
     removeCardHandler = (cardID) => {
