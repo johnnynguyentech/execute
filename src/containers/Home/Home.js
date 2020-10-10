@@ -127,7 +127,7 @@ class Home extends Component {
 
 const mapStateToProps = state => {
     return {
-      error: state.actions.error
+      error: state.error
     }
   }
   
