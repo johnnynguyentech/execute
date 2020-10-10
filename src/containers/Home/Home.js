@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { NavLink } from 'react-router-dom';
 
 import './Home.css';
 import Aux from '../../hoc/Aux/Aux';
@@ -20,6 +19,19 @@ class Home extends Component {
         }else{
             this.setState({isSignUp: true});
         }
+    }
+
+    onChange = (event) => {
+        this.setState({
+          [event.target.name]: event.target.value
+        })
+    }
+
+    onSubmitHandler = () => {
+        if (this.state.email.length === 0 || this.state.password === 0) {
+          alert('Please fill out the entire form!')
+        }
+        this.props.onAuth(this.state.email, this.state.password, this.state.isSignUp)    
     }
 
     render () {
@@ -79,16 +91,32 @@ class Home extends Component {
                     <div className="jumbotron" id="logInForm">
                         <form>
                                 {signOrLog}
+                                {errorMsg}
                             <div className="form-group">
                                 <label htmlFor="exampleInputEmail1">Email address:</label>
-                                <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email"></input>
+                                <input 
+                                    type="email" 
+                                    className="form-control" 
+                                    id="exampleInputEmail1" 
+                                    aria-describedby="emailHelp" 
+                                    placeholder="Enter email"
+                                    name="email"
+                                    onChange={(event) => this.onChange(event)}
+                                    value={this.state.email}></input>
                                 <small id="emailHelp" className="form-text text-muted">We'll never share your email with anyone else.</small>
                             </div>
                             <div className="form-group">
                                 <label htmlFor="exampleInputPassword1">Password:</label>
-                                <input type="password" className="form-control" id="exampleInputPassword1" placeholder="Password"></input>
+                                <input 
+                                    type="password" 
+                                    className="form-control" 
+                                    id="exampleInputPassword1" 
+                                    placeholder="Enter Password"
+                                    name="password"
+                                    onChange={(event) => this.onChange(event)}
+                                    value={this.state.password}></input>
                             </div>
-                            <NavLink to='/todo'><button type="submit" className="btn btn-primary" id="submitLogin">Submit</button></NavLink>
+                            <button onClick={this.onSubmitHandler} type="submit" className="btn btn-primary" id="submitLogin">Submit</button>
                         </form>
                     </div>
                 </div>
@@ -99,7 +127,7 @@ class Home extends Component {
 
 const mapStateToProps = state => {
     return {
-      error: state.auth.error
+      error: state.actions.error
     }
   }
   

@@ -35,8 +35,9 @@ const reducer = (state = initialState, action) => {
         userId: null,
         error: null
       }
+    default:
+      return state;
   }
-  return state;
 }
 
 export default reducer;
