@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 
 import './Home.css';
 import Aux from '../../hoc/Aux/Aux';
@@ -27,7 +28,8 @@ class Home extends Component {
         })
     }
 
-    onSubmitHandler = () => {
+    onSubmitHandler = (event) => {
+        event.preventDefault();
         if (this.state.email.length === 0 || this.state.password === 0) {
           alert('Please fill out the entire form!')
         }
@@ -65,7 +67,7 @@ class Home extends Component {
             else if (this.props.error.message === 'EMAIL_NOT_FOUND') {
                 errorMsg = (
                 <div>
-                    <p><i class="fas fa-exclamation-circle"></i><strong> Let's try that again</strong></p>
+                    <p><i className="fas fa-exclamation-circle"></i><strong> Let's try that again</strong></p>
                     <p>The email you entered is incorrect. Try again, or choose another login option.</p>
                 </div>
                 )
@@ -73,12 +75,17 @@ class Home extends Component {
             else if (this.props.error.message === 'EMAIL_EXISTS') {
                 errorMsg = (
                 <div>
-                    <p><i class="fas fa-exclamation-circle"></i><strong> Let's try that again</strong></p>
+                    <p><i className="fas fa-exclamation-circle"></i><strong> Let's try that again</strong></p>
                     <p>The email you entered already exists.</p>
                 </div>
                 )
             }
         } 
+
+        // If logged in, redirect to todo page
+        if (this.props.token !== null) {
+            return (<Redirect to='/todo' />);
+        }
 
         return (
             <Aux>
@@ -127,16 +134,17 @@ class Home extends Component {
 
 const mapStateToProps = state => {
     return {
-      error: state.error
+      error: state.error,
+      token: state.token
     }
-  }
+}
   
   
-  const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = dispatch => {
     return {
       onAuth: (email, password, isSignUp) => dispatch(actions.auth(email, password, isSignUp))
     }
-  }
+}
   
-  export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
   

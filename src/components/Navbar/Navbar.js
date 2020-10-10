@@ -5,6 +5,7 @@ import './Navbar.css';
 
 
 class Navbar extends Component {
+ 
 
     render () {
         return (
@@ -18,7 +19,7 @@ class Navbar extends Component {
                         <div className="collapse navbar-collapse" id="navbarSupportedContent">
                             <ul className="navbar-nav ml-auto">
                             <li className="nav-item">
-                                <NavLink to='/'><button type="button" className="btn btn-primary" id="logoutBtn">Logout</button></NavLink>
+                                <NavLink to='/logout'><button type="button" className="btn btn-primary" id="logoutBtn">Logout</button></NavLink>
                             </li>
                             </ul>
                         </div>
@@ -28,4 +29,5 @@ class Navbar extends Component {
     }
 }
 
-export default Navbar;
+  
+  export default Navbar;

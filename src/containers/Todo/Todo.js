@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import {connect} from 'react-redux';
+
 import axios from '../../axios-instance';
 
 import './Todo.css';
@@ -16,6 +18,22 @@ class Todo extends Component {
         notes: "",
         cards: []
     }
+
+    // componentDidMount = () => {
+    //     // Get todo cards from Firebase
+    //     const queryParams = '?auth=' + this.props.token + '&orderBy="userId"&equalTo="' + this.props.userId + '"';
+    //     axios.get('/todoItems.json' + queryParams).then(response => {
+    //         const results = [];
+    //         for (let key in response.data) {
+    //             results.unshift({
+    //                 ...response.data[key],
+    //                 id: key
+    //             })
+    //         }
+    //         this.setState({cards: results});
+    //     })
+        
+    // }
 
     onChangeHandler = (event) => {
         this.setState({
@@ -38,7 +56,8 @@ class Todo extends Component {
             const todoCard = {
                 title: this.state.title,
                 date: this.state.date,
-                notes: this.state.notes
+                notes: this.state.notes,
+                userId: this.props.userId
             }
             axios.post('/todoItems.json', todoCard);
             // Clear the add form when done
@@ -59,7 +78,8 @@ class Todo extends Component {
 
     render () {
         // Get todo cards from Firebase
-        axios.get('/todoItems.json').then(response => {
+        const queryParams = '?auth=' + this.props.token + '&orderBy="userId"&equalTo="' + this.props.userId + '"';
+        axios.get('/todoItems.json' + queryParams).then(response => {
             const results = [];
             for (let key in response.data) {
                 results.unshift({
@@ -160,4 +180,11 @@ class Todo extends Component {
     }
 }
 
-export default Todo;
+const mapStateToProps = state => {
+    return {
+        userId: state.userId,
+        token: state.token
+    }
+}
+
+export default connect(mapStateToProps)(Todo);
