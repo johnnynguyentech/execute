@@ -1,6 +1,9 @@
 {
   "rules": {
-    ".read": true,
-    ".write": true
+    "todoItems": {
+      ".read": "true",
+    	".write": "true",
+      ".indexOn": ["userId"]
+    }
   }
 }
