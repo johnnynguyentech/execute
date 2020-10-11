@@ -41,14 +41,14 @@ class Home extends Component {
         let signOrLog = (
         <Aux>
             <h3 id="sign">SIGN UP</h3>
-            <center><p onClick={this.onSignHandler}>Already have an account? Click to log in.</p></center>
+            <center><p onClick={this.onSignHandler}><u>Already have an account? Click to log in.</u></p></center>
         </Aux>
         );
         if (!this.state.isSignUp) {
             signOrLog = (
                 <Aux>
                     <h3 id="sign">LOG IN</h3>
-                    <center><p onClick={this.onSignHandler}>Don't have an account? Click to sign up.</p></center>
+                    <center><p onClick={this.onSignHandler}><u>Don't have an account? Click to sign up.</u></p></center>
                 </Aux>
             );
         }
