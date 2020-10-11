@@ -19,22 +19,6 @@ class Todo extends Component {
         cards: []
     }
 
-    // componentDidMount = () => {
-    //     // Get todo cards from Firebase
-    //     const queryParams = '?auth=' + this.props.token + '&orderBy="userId"&equalTo="' + this.props.userId + '"';
-    //     axios.get('/todoItems.json' + queryParams).then(response => {
-    //         const results = [];
-    //         for (let key in response.data) {
-    //             results.unshift({
-    //                 ...response.data[key],
-    //                 id: key
-    //             })
-    //         }
-    //         this.setState({cards: results});
-    //     })
-        
-    // }
-
     onChangeHandler = (event) => {
         this.setState({
           [event.target.name]: event.target.value
@@ -87,6 +71,12 @@ class Todo extends Component {
                     id: key
                 })
             }
+            //Order the cards by the date
+            results.sort((a, b) => {
+                let da = new Date(a.date),
+                    db = new Date(b.date);
+                return da - db;
+            });
             this.setState({cards: results})
         })
         // Display Firebase data in cards
