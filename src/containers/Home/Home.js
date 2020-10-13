@@ -106,7 +106,7 @@ class Home extends Component {
                                     className="form-control" 
                                     id="exampleInputEmail1" 
                                     aria-describedby="emailHelp" 
-                                    placeholder="Enter email"
+                                    placeholder="Enter Email"
                                     name="email"
                                     onChange={(event) => this.onChange(event)}
                                     value={this.state.email}></input>
